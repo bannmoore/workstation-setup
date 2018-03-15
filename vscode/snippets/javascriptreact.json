@@ -1,0 +1,21 @@
+{
+	"react_component": {
+		"prefix": "bam_react_component",
+		"body": [
+			"const React = require('react')",
+			"",
+			"module.exports = class $1 extends React.Component {",
+			"  constructor(props) {",
+			"    super(props)",
+			"  }",
+			"",
+			"  render() {",
+			"    return (",
+			"      <div>My component</div>",
+			"    )",
+			"  }",
+			"}"
+		],
+		"description": "React component boilerplate"
+	}
+}

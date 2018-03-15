@@ -1,0 +1,25 @@
+{
+  "tsconfig": {
+    "prefix": "bam_tsconfig",
+    "body": [
+      "{",
+      "  \"compilerOptions\": {",
+      "    \"outDir\": \"dist\",",
+      "    \"target\": \"es5\",",
+      "    \"module\": \"commonjs\",",
+      "    \"sourceMap\": true,",
+      "    \"experimentalDecorators\": true",
+      "  },",
+      "  \"include\": [",
+      "    \"src\"",
+      "  ],",
+      "  \"exclude\": [",
+      "    \"node_modules\",",
+      "    \"test\"",
+      "  ],",
+      "  \"compileOnSave\": false",
+      "}"
+    ],
+    "description": "Minimal tsconfig"
+  }
+}

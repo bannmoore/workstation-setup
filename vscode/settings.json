@@ -1,0 +1,30 @@
+{
+  "css.validate": false,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.detectIndentation": true,
+  "editor.dragAndDrop": false,
+  "editor.fontLigatures": true,
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, monospace",
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.parameterHints": false,
+  "editor.tabSize": 2,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "explorer.autoReveal": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "git.confirmSync": false,
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true
+  },
+  "terminal.integrated.shellArgs.linux": [
+    "-l"
+  ],
+  "todohighlight.toggleURI": true,
+  "window.zoomLevel": 0,
+  "extensions.ignoreRecommendations": true,
+}
