@@ -3,19 +3,48 @@
 		"prefix": "bam_react_component",
 		"body": [
 			"const React = require('react')",
+			"const PropTypes = require('prop-types')",
 			"",
-			"module.exports = class $1 extends React.Component {",
+			"class $1 extends React.Component {",
 			"  constructor(props) {",
 			"    super(props)",
 			"  }",
 			"",
 			"  render() {",
 			"    return (",
-			"      <div>My component</div>",
+			"      <div>$1</div>",
 			"    )",
 			"  }",
-			"}"
+			"}",
+			"",
+			"$1.propTypes={}",
+			"",
+			"module.exports = $1"
 		],
-		"description": "React component boilerplate"
+		"description": "React component"
+	},
+	"react_es6_component": {
+		"prefix": "bam_react_es6_component",
+		"body": [
+			"import React from 'react'",
+			"import PropTypes from 'prop-types'",
+			"",
+			"class $1 extends React.Component {",
+			"  constructor(props) {",
+			"    super(props)",
+			"  }",
+			"",
+			"  render() {",
+			"    return (",
+			"      <div>$1</div>",
+			"    )",
+			"  }",
+			"}",
+			"",
+			"$1.propTypes = {}",
+			"",
+			"export default $1"
+		],
+		"description": "React component (ES6)"
 	}
 }
