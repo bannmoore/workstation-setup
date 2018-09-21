@@ -23,6 +23,16 @@
   },
   "git.confirmSync": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
+  "ruby.format": "rubocop",
+  "ruby.lint": {
+    "reek": true,
+    "rubocop": true,
+    "ruby": true, //Runs ruby -wc
+    "fasterer": true,
+    "debride": true,
+    "ruby-lint": true
+  },
+  "ruby.lintDebounceTime": 500,
   "search.exclude": {
     "**/.git": true,
     "**/node_modules": true

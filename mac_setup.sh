@@ -71,6 +71,9 @@ brew_install entr
 brew_install ripgrep
 brew_install ruby
 gem install jekyll bundler
+gem install rails
+gem install ruby-debug-ide
+gem install rubocop
 
 echo "## set computer name"
 if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then  
@@ -133,5 +136,6 @@ code --install-extension mikestead.dotenv
 code --install-extension PeterJausovec.vscode-docker
 code --install-extension steoates.autoimport
 code --install-extension wayou.vscode-todo-highlight
+code --install-extension rebornix.ruby
 
 echo "# Setup is complete."
