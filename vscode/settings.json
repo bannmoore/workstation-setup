@@ -5,7 +5,7 @@
   "editor.dragAndDrop": false,
   "editor.fontLigatures": true,
   "editor.fontFamily": "Fira Code, Menlo, Monaco, monospace",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.minimap.enabled": false,
   "editor.parameterHints": false,
   "editor.tabSize": 2,
@@ -16,15 +16,21 @@
   "explorer.autoReveal": false,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
+  "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    "Dockerfile*": "dockerfile",
+    "Makefile*": "makefile"
+  },
   "git.confirmSync": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
   "search.exclude": {
     "**/.git": true,
     "**/node_modules": true
   },
+  "terminal.integrated.scrollback": 10000,
   "terminal.integrated.shellArgs.linux": [
     "-l"
   ],
   "todohighlight.toggleURI": true,
   "window.zoomLevel": 0,
-  "extensions.ignoreRecommendations": true,
 }
