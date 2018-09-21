@@ -54,6 +54,7 @@ fi
 echo "## install other programs"
 brew tap caskroom/fonts
 
+brew_cask_install 1password
 brew_cask_install docker
 brew_cask_install firefox
 brew_cask_install font-fira-code
