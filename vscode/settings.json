@@ -7,7 +7,7 @@
   "editor.fontFamily": "Fira Code, Menlo, Monaco, monospace",
   "editor.formatOnSave": false,
   "editor.minimap.enabled": false,
-  "editor.parameterHints": false,
+  "editor.parameterHints.enabled": false,
   "editor.tabSize": 2,
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
