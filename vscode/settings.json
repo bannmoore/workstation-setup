@@ -1,6 +1,8 @@
 {
   "css.validate": false,
   "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.autoIndent": true,
   "editor.detectIndentation": true,
   "editor.dragAndDrop": false,
   "editor.fontLigatures": true,
