@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Manual Steps
+# 1. Enable Accessibility: Apple > System Preferences > Keyboard > Shortcuts > Accessibility > All Controls (at the bottom of the pane) 
+
 # Settings
 GITHUB_USERNAME=bannmoore
 GITHUB_EMAIL=moore.brittanyann@gmail.com
