@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Manual Steps
-# 1. Enable Accessibility: Apple > System Preferences > Keyboard > Shortcuts > Accessibility > All Controls (at the bottom of the pane) 
-
 # Settings
 GITHUB_USERNAME=bannmoore
 GITHUB_EMAIL=moore.brittanyann@gmail.com
@@ -83,9 +80,12 @@ if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then
   scutil --set ComputerName $COMPUTER_NAME
 fi
 
-echo "## increase cursor speed"
+echo "## change mac settings"
+echo "### cursor speed"
 defaults write NSGlobalDomain KeyRepat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
+echo "### accessibility UI mode"
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 echo "## create .bash_profile"
 cat > ~/.bash_profile <<'EOF'
