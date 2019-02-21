@@ -97,6 +97,7 @@ EOF
 echo "## configure npm"
 npm config set init.author.name $NPM_AUTHOR
 npm config set init.license MIT
+npm config set update-notifier false
 npm set progress=false
 
 echo "## configure git"
