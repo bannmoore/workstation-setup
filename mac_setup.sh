@@ -101,16 +101,24 @@ npm config set update-notifier false
 npm set progress=false
 
 echo "## configure git"
+git config --global user.name $GITHUB_USERNAME
+git config --global user.email $GITHUB_EMAIL
+git config --global core.editor 'code --wait'
+git config --global merge.ff only
+git config --global pull.rebase true
+git config --global fetch.prune true
+git config --global rebase.autoSquash true
+git config --global rebase.autoStash true
+git config --global rerere.enabled true
+git config --global rerere.autoUpdate true
+
+echo "### aliases"
 git config --global alias.s 'status -sb'
 git config --global alias.last 'log -1 HEAD'
 git config --global alias.gists '!curl --user "'$GITHUB_USERNAME'" https://api.github.com/gists'
 git config --global alias.clonemy '!f() { git clone git@github.com:'"$GITHUB_USERNAME"'/$1.git; }; f'
 git config --global alias.amend 'commit --amend -C HEAD'
 git config --global alias.publish 'push origin HEAD'
-git config --global core.editor 'code --wait'
-git config --global merge.ff only
-git config --global user.name $GITHUB_USERNAME
-git config --global user.email $GITHUB_EMAIL
 
 echo "## generate ssh key"
 if [ ! -d ~/.ssh ]; then
