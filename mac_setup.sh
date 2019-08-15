@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Manual Steps
+# Install Docker: https://docs.docker.com/docker-for-mac/install/
+
 # Settings
 GITHUB_USERNAME=bannmoore
 GITHUB_EMAIL=moore.brittanyann@gmail.com
@@ -56,12 +59,10 @@ echo "## install other programs"
 brew tap caskroom/fonts
 
 brew_cask_install 1password
-brew_cask_install docker
 brew_cask_install firefox
 brew_cask_install font-fira-code
 brew_cask_install google-chrome
 brew_cask_install ngrok
-brew_cask_install selfcontrol
 brew_cask_install slack
 brew_cask_install visual-studio-code
 brew_cask_install zoomus
