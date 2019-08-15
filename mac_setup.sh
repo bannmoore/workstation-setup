@@ -5,7 +5,8 @@ GITHUB_USERNAME=bannmoore
 GITHUB_EMAIL=moore.brittanyann@gmail.com
 NPM_AUTHOR="Brittany Moore<$GITHUB_USERNAME>"
 COMPUTER_NAME=Ada
-NODE_VERSION=8.11.3
+NODE_VERSION=10.16.2
+ELIXIR_VERSION=1.9.0
 
 # Helpers
 brew_install() {
@@ -69,11 +70,30 @@ echo "## install utilities"
 xcode-select --install
 brew_install entr
 brew_install ripgrep
-brew_install ruby
+
+echo "## install rvm, ruby, and rails"
+curl -sSL https://get.rvm.io | bash -s stable --ruby --rails
+
 gem install jekyll bundler
-gem install rails
 gem install ruby-debug-ide
 gem install rubocop
+
+echo "## install go"
+brew_install go
+
+echo "## install elixir"
+brew_install exenv
+
+if [[ $(exenv versions | grep $ELIXIR_VERSION) ]]; then
+  echo "elixir $ELIXIR_VERSION is already installed"
+else
+  exenv install $ELIXIR_VERSION
+  exenv global $ELIXIR_VERSION
+fi
+
+echo "## install postgres"
+brew_install postgresql
+brew services start postgresql
 
 echo "## set computer name"
 if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then  
@@ -135,11 +155,12 @@ EOF
   printf "\e[36mSSH key has been copied to clipboard.\e[39m\n"
 fi
 
-echo "## configure vscode"
-VSCODE_PATH="Library/Application Support/Code/User"
-cp ./vscode/settings.json ~/"$VSCODE_PATH/settings.json"
-cp ./vscode/keybindings.json ~/"$VSCODE_PATH/keybindings.json"
-cp -r ./vscode/snippets ~/"$VSCODE_PATH" 
+# This section may be replaced by the Settings Sync extension in VSCode.
+# echo "## configure vscode"
+# VSCODE_PATH="Library/Application Support/Code/User"
+# cp ./vscode/settings.json ~/"$VSCODE_PATH/settings.json"
+# cp ./vscode/keybindings.json ~/"$VSCODE_PATH/keybindings.json"
+# cp -r ./vscode/snippets ~/"$VSCODE_PATH" 
 
 echo "## install vscode extensions"
 code --install-extension EditorConfig.EditorConfig
@@ -149,5 +170,11 @@ code --install-extension PeterJausovec.vscode-docker
 code --install-extension steoates.autoimport
 code --install-extension wayou.vscode-todo-highlight
 code --install-extension rebornix.ruby
+code --install-extension jakebecker.elixir-ls
+code --install-extension ms-vsliveshare.vsliveshare
+code --install-extension chenxsan.vscode-standardjs
+code --install-extension shinnn.stylelint
+code --install-extension florinpatrascu.vscode-elixir-snippets
+code --install-extension shan.code-settings-sync
 
 echo "# Setup is complete."
