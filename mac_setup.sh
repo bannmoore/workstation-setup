@@ -161,13 +161,6 @@ EOF
   printf "\e[36mSSH key has been copied to clipboard.\e[39m\n"
 fi
 
-# This section may be replaced by the Settings Sync extension in VSCode.
-# echo "## configure vscode"
-# VSCODE_PATH="Library/Application Support/Code/User"
-# cp ./vscode/settings.json ~/"$VSCODE_PATH/settings.json"
-# cp ./vscode/keybindings.json ~/"$VSCODE_PATH/keybindings.json"
-# cp -r ./vscode/snippets ~/"$VSCODE_PATH" 
-
 vscode_extension() {
   code --install-extension $1
 }
