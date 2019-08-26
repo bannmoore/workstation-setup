@@ -96,7 +96,6 @@ fi
 
 echo "## install postgres"
 brew_install postgresql
-brew services start postgresql
 
 echo "## set computer name"
 if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then  
@@ -169,19 +168,35 @@ fi
 # cp ./vscode/keybindings.json ~/"$VSCODE_PATH/keybindings.json"
 # cp -r ./vscode/snippets ~/"$VSCODE_PATH" 
 
+vscode_extension() {
+  code --install-extension $1
+}
+
 echo "## install vscode extensions"
-code --install-extension EditorConfig.EditorConfig
-code --install-extension esbenp.prettier-vscode
-code --install-extension mikestead.dotenv
-code --install-extension PeterJausovec.vscode-docker
-code --install-extension steoates.autoimport
-code --install-extension wayou.vscode-todo-highlight
-code --install-extension rebornix.ruby
-code --install-extension jakebecker.elixir-ls
-code --install-extension ms-vsliveshare.vsliveshare
-code --install-extension chenxsan.vscode-standardjs
-code --install-extension shinnn.stylelint
-code --install-extension florinpatrascu.vscode-elixir-snippets
-code --install-extension shan.code-settings-sync
+echo "### vscode"
+vscode_extension shan.code-settings-sync
+vscode_extension ms-vsliveshare.vsliveshare
+echo "### formatting"
+vscode_extension coenraads.bracket-pair-colorizer-2
+vscode_extension tyriar.sort-lines
+vscode_extension wayou.vscode-todo-highlight
+echo "### git"
+vscode_extension eamodio.gitlens
+echo "### elixir"
+vscode_extension jakebecker.elixir-ls
+vscode_extension florinpatrascu.vscode-elixir-snippets
+vscode_extension zerokol.vscode-eex-beautify
+gem install htmlbeautifier # required for vscode-eex-beautify
+echo "### javascript"
+vscode_extension chenxsan.vscode-standardjs
+npm i -g standard # required for vscode-standardjs
+echo "### go"
+vscode_extension ms-vscode.go
+echo "### docker"
+vscode_extension PeterJausovec.vscode-docker
+echo "### terraform"
+vscode_extension mauve.terraform
+echo "### dotenv"
+vscode_extension mikestead.dotenv
 
 echo "# Setup is complete."
