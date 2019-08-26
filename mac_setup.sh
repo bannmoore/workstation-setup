@@ -10,6 +10,7 @@ NPM_AUTHOR="Brittany Moore<$GITHUB_USERNAME>"
 COMPUTER_NAME=Ada
 NODE_VERSION=10.16.2
 ELIXIR_VERSION=1.9.0
+RUBY_VERSION=2.6.3
 
 # Helpers
 brew_install() {
@@ -72,19 +73,20 @@ xcode-select --install
 brew_install entr
 brew_install ripgrep
 
-echo "## install rvm, ruby, and rails"
-curl -sSL https://get.rvm.io | bash -s stable --ruby --rails
-
-gem install jekyll bundler
-gem install ruby-debug-ide
-gem install rubocop
+echo "## install ruby"
+brew_install rbenv
+if [[ $(rbenv versions | grep $RUBY_VERSION) ]]; then
+  echo "ruby $RUBY_VERSION is already installed"
+else
+  rbenv install $RUBY_VERSION
+  rbenv global $RUBY_VERSION
+fi
 
 echo "## install go"
 brew_install go
 
 echo "## install elixir"
 brew_install exenv
-
 if [[ $(exenv versions | grep $ELIXIR_VERSION) ]]; then
   echo "elixir $ELIXIR_VERSION is already installed"
 else
@@ -109,11 +111,13 @@ echo "### accessibility UI mode"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 echo "## create .bash_profile"
-cat > ~/.bash_profile <<'EOF'
+if [ ! -f ~/.bash_profile ]; then
+  cat > ~/.bash_profile <<'EOF'
 export PS1="$ "
 export PATH=/usr/local/bin:$PATH
 eval "$(nodenv init -)"
 EOF
+fi
 
 echo "## configure npm"
 npm config set init.author.name $NPM_AUTHOR
@@ -140,6 +144,8 @@ git config --global alias.gists '!curl --user "'$GITHUB_USERNAME'" https://api.g
 git config --global alias.clonemy '!f() { git clone git@github.com:'"$GITHUB_USERNAME"'/$1.git; }; f'
 git config --global alias.amend 'commit --amend -C HEAD'
 git config --global alias.publish 'push origin HEAD'
+git config --global alias.pushforreal '!git push --force-with-lease --no-verify'
+git config --global alias.quickrebase '!git fetch && git rebase origin/master'
 
 echo "## generate ssh key"
 if [ ! -d ~/.ssh ]; then
