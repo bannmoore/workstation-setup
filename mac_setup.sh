@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
 # Manual Steps
 # Install Docker: https://docs.docker.com/docker-for-mac/install/
@@ -32,6 +34,45 @@ brew_cask_install() {
 
 # Setup
 echo "# Setting up $COMPUTER_NAME for $(id -un)."
+
+echo "## Checking shell..."
+if [[ ! "$SHELL" == "/bin/zsh" ]]; then
+  echo "### Setting shell to zsh."
+  chsh -s /bin/zsh
+else 
+  echo "### Shell is already zsh."
+fi
+
+echo "## set computer name"
+if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then  
+  scutil --set ComputerName $COMPUTER_NAME
+fi
+
+echo "## change mac settings"
+echo "### cursor speed"
+defaults write NSGlobalDomain KeyRepat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+echo "### accessibility UI mode"
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+echo "## create .zshrc"
+if [ ! -f ~/.zshrc ]; then
+  cat > ~/.zshrc <<'EOF'
+export PS1="$ "
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/opt/python/libexec/bin:$PATH
+
+eval "$(rbenv init -)"
+
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
+
+export PATH="$HOME/.exenv/bin:$PATH"
+eval "$(exenv init -)"
+
+export ERL_AFLAGS="-kernel shell_history enabled"
+EOF
+fi
 
 echo "## install homebrew"
 if [[ $(which brew) ]]; then
@@ -72,6 +113,7 @@ echo "## install utilities"
 xcode-select --install
 brew_install entr
 brew_install ripgrep
+brew_install sl
 
 echo "## install ruby"
 brew_install rbenv
@@ -92,30 +134,6 @@ if [[ $(exenv versions | grep $ELIXIR_VERSION) ]]; then
 else
   exenv install $ELIXIR_VERSION
   exenv global $ELIXIR_VERSION
-fi
-
-echo "## install postgres"
-brew_install postgresql
-
-echo "## set computer name"
-if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then  
-  scutil --set ComputerName $COMPUTER_NAME
-fi
-
-echo "## change mac settings"
-echo "### cursor speed"
-defaults write NSGlobalDomain KeyRepat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
-echo "### accessibility UI mode"
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-
-echo "## create .bash_profile"
-if [ ! -f ~/.bash_profile ]; then
-  cat > ~/.bash_profile <<'EOF'
-export PS1="$ "
-export PATH=/usr/local/bin:$PATH
-eval "$(nodenv init -)"
-EOF
 fi
 
 echo "## configure npm"
@@ -145,6 +163,7 @@ git config --global alias.amend 'commit --amend -C HEAD'
 git config --global alias.publish 'push origin HEAD'
 git config --global alias.pushforreal '!git push --force-with-lease --no-verify'
 git config --global alias.quickrebase '!git fetch && git rebase origin/master'
+git config --global alias.cleanbranches '!git branch | grep -v "master" | xargs git branch -D '
 
 echo "## generate ssh key"
 if [ ! -d ~/.ssh ]; then
@@ -169,20 +188,19 @@ echo "## install vscode extensions"
 echo "### vscode"
 vscode_extension shan.code-settings-sync
 vscode_extension ms-vsliveshare.vsliveshare
-echo "### formatting"
+vscode_extension editorconfig.editorconfig
+echo "### general formatting"
 vscode_extension coenraads.bracket-pair-colorizer-2
 vscode_extension tyriar.sort-lines
 vscode_extension wayou.vscode-todo-highlight
+vscode_extension yzhang.markdown-all-in-one
 echo "### git"
 vscode_extension eamodio.gitlens
 echo "### elixir"
 vscode_extension jakebecker.elixir-ls
 vscode_extension florinpatrascu.vscode-elixir-snippets
-vscode_extension zerokol.vscode-eex-beautify
-gem install htmlbeautifier # required for vscode-eex-beautify
 echo "### javascript"
-vscode_extension chenxsan.vscode-standardjs
-npm i -g standard # required for vscode-standardjs
+vscode_extension dbaeumer.vscode-eslint
 echo "### go"
 vscode_extension ms-vscode.go
 echo "### docker"
