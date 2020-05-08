@@ -110,7 +110,7 @@ brew_cask_install visual-studio-code
 brew_cask_install zoomus
 
 echo "## install utilities"
-xcode-select --install
+xcode-select --install || true
 brew_install entr
 brew_install ripgrep
 brew_install sl
