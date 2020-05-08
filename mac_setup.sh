@@ -44,7 +44,7 @@ else
   echo "### Shell is already zsh."
 fi
 
-echo "## Seting computer name."
+echo "## Setting computer name."
 if [[ ! $(scutil --get ComputerName) == "$COMPUTER_NAME" ]]; then  
   scutil --set ComputerName $COMPUTER_NAME
 fi
@@ -61,7 +61,6 @@ if [ ! -f ~/.zshrc ]; then
   cat > ~/.zshrc <<'EOF'
 export PS1="$ "
 export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/opt/python/libexec/bin:$PATH
 
 eval "$(rbenv init -)"
 
@@ -79,16 +78,16 @@ echo "## install homebrew"
 if [[ $(which brew) ]]; then
   brew update
 else
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-echo "## install nodenv"
-if [[ $(which nodenv) ]]; then
-  HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade nodenv
-else
-  HOMEBREW_NO_AUTO_UPDATE=1 brew install nodenv
-  nodenv init
-fi
+echo "## install *env utilities"
+brew_install nodenv
+brew_install rbenv
+brew_install exenv
+
+echo "## reloading .zshrc"
+source ~/.zshrc
 
 echo "## install node"
 if [[ $(nodenv versions | grep $NODE_VERSION) ]]; then
@@ -99,7 +98,6 @@ else
 fi
 
 echo "## install ruby"
-brew_install rbenv
 if [[ $(rbenv versions | grep $RUBY_VERSION) ]]; then
   echo "ruby $RUBY_VERSION is already installed"
 else
@@ -107,11 +105,7 @@ else
   rbenv global $RUBY_VERSION
 fi
 
-echo "## install go"
-brew_install go
-
 echo "## install elixir"
-brew_install exenv
 if [[ $(exenv versions | grep $ELIXIR_VERSION) ]]; then
   echo "elixir $ELIXIR_VERSION is already installed"
 else
@@ -119,8 +113,8 @@ else
   exenv global $ELIXIR_VERSION
 fi
 
-echo "## reloading .zshrc"
-source ~/.zshrc
+echo "## install go"
+brew_install go
 
 echo "## install other programs"
 brew tap homebrew/cask-fonts
@@ -138,7 +132,6 @@ echo "## install utilities"
 xcode-select --install || true
 brew_install entr
 brew_install ripgrep
-brew_install sl
 
 echo "## configure npm"
 npm config set init.author.name $NPM_AUTHOR
