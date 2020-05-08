@@ -10,7 +10,7 @@ GITHUB_USERNAME=bannmoore
 GITHUB_EMAIL=moore.brittanyann@gmail.com
 NPM_AUTHOR="Brittany Moore<$GITHUB_USERNAME>"
 COMPUTER_NAME=Ada
-NODE_VERSION=10.16.2
+NODE_VERSION=12.4.0
 ELIXIR_VERSION=1.9.0
 RUBY_VERSION=2.6.3
 
@@ -43,12 +43,12 @@ else
   echo "### Shell is already zsh."
 fi
 
-echo "## set computer name"
-if [[ ! $(scutil --get ComputerName) -eq $COMPUTER_NAME ]]; then  
+echo "## Seting computer name."
+if [[ ! $(scutil --get ComputerName) == "$COMPUTER_NAME" ]]; then  
   scutil --set ComputerName $COMPUTER_NAME
 fi
 
-echo "## change mac settings"
+echo "## Changing mac settings"
 echo "### cursor speed"
 defaults write NSGlobalDomain KeyRepat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
