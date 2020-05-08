@@ -16,19 +16,20 @@ RUBY_VERSION=2.6.3
 
 # Helpers
 brew_install() {
+  echo "$1"
   if [[ $(brew list | grep $1) ]]; then
-    brew upgrade $1
+    HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade $1
   else
-    brew install $1
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install $1
   fi
 }
 
 brew_cask_install() {
-  printf $1
+  echo "$1"
   if [[ $(brew cask list | grep $1) ]]; then
-    brew cask upgrade $1
+    HOMEBREW_NO_AUTO_UPDATE=1 brew cask upgrade $1
   else
-    brew cask install $1
+    HOMEBREW_NO_AUTO_UPDATE=1 brew cask install $1
   fi
 }
 
@@ -83,9 +84,9 @@ fi
 
 echo "## install nodenv"
 if [[ $(which nodenv) ]]; then
-  brew upgrade nodenv
+  HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade nodenv
 else
-  brew install nodenv
+  HOMEBREW_NO_AUTO_UPDATE=1 brew install nodenv
   nodenv init
 fi
 
@@ -96,24 +97,6 @@ else
   nodenv install $NODE_VERSION
   nodenv global $NODE_VERSION
 fi
-
-echo "## install other programs"
-brew tap homebrew/cask-fonts
-
-brew_cask_install 1password
-brew_cask_install firefox
-brew_cask_install font-fira-code
-brew_cask_install google-chrome
-brew_cask_install ngrok
-brew_cask_install slack
-brew_cask_install visual-studio-code
-brew_cask_install zoomus
-
-echo "## install utilities"
-xcode-select --install || true
-brew_install entr
-brew_install ripgrep
-brew_install sl
 
 echo "## install ruby"
 brew_install rbenv
@@ -135,6 +118,27 @@ else
   exenv install $ELIXIR_VERSION
   exenv global $ELIXIR_VERSION
 fi
+
+echo "## reloading .zshrc"
+source ~/.zshrc
+
+echo "## install other programs"
+brew tap homebrew/cask-fonts
+
+brew_cask_install 1password
+brew_cask_install firefox
+brew_cask_install font-fira-code
+brew_cask_install google-chrome
+brew_cask_install ngrok
+brew_cask_install slack
+brew_cask_install visual-studio-code
+brew_cask_install zoomus
+
+echo "## install utilities"
+xcode-select --install || true
+brew_install entr
+brew_install ripgrep
+brew_install sl
 
 echo "## configure npm"
 npm config set init.author.name $NPM_AUTHOR
@@ -204,7 +208,7 @@ vscode_extension dbaeumer.vscode-eslint
 echo "### go"
 vscode_extension ms-vscode.go
 echo "### docker"
-vscode_extension PeterJausovec.vscode-docker
+vscode_extension ms-azuretools.vscode-docker
 echo "### terraform"
 vscode_extension mauve.terraform
 echo "### dotenv"
