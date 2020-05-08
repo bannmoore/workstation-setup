@@ -98,7 +98,7 @@ else
 fi
 
 echo "## install other programs"
-brew tap caskroom/fonts
+brew tap homebrew/cask-fonts
 
 brew_cask_install 1password
 brew_cask_install firefox
