@@ -127,6 +127,8 @@ brew_cask_install ngrok
 brew_cask_install slack
 brew_cask_install visual-studio-code
 brew_cask_install zoomus
+brew_cask_install licecap
+brew_cask_install postman
 
 echo "## install utilities"
 xcode-select --install || true
@@ -184,7 +186,7 @@ vscode_extension() {
 echo "## install vscode extensions"
 echo "### vscode"
 vscode_extension shan.code-settings-sync
-vscode_extension ms-vsliveshare.vsliveshare
+vscode_extension ms-vsliveshare.vsliveshare-pack
 vscode_extension editorconfig.editorconfig
 echo "### general formatting"
 vscode_extension coenraads.bracket-pair-colorizer-2
