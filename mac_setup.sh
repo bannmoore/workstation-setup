@@ -24,15 +24,6 @@ brew_install() {
   fi
 }
 
-brew_cask_install() {
-  echo "$1"
-  if [[ $(brew cask list | grep $1) ]]; then
-    HOMEBREW_NO_AUTO_UPDATE=1 brew cask upgrade $1
-  else
-    HOMEBREW_NO_AUTO_UPDATE=1 brew cask install $1
-  fi
-}
-
 # Setup
 echo "# Setting up $COMPUTER_NAME for $(id -un)."
 
@@ -56,7 +47,7 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 echo "### accessibility UI mode"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-echo "## create .zshrc"
+echo "## check .zshrc"
 if [ ! -f ~/.zshrc ]; then
   cat > ~/.zshrc <<'EOF'
 export PS1="$ "
@@ -72,13 +63,15 @@ eval "$(exenv init -)"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 EOF
+else
+  echo "### .zshrc already exists"
 fi
 
 echo "## install homebrew"
 if [[ $(which brew) ]]; then
   brew update
 else
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 echo "## install *env utilities"
@@ -113,27 +106,22 @@ else
   exenv global $ELIXIR_VERSION
 fi
 
-echo "## install go"
-brew_install go
+echo "## install .NET core"
+brew_install dotnet-sdk
 
-echo "## install other programs"
+echo "## install other tools"
+xcode-select --install || true
+
+echo "## install applications"
 brew tap homebrew/cask-fonts
 
-brew_cask_install 1password
-brew_cask_install firefox
-brew_cask_install font-fira-code
-brew_cask_install google-chrome
-brew_cask_install ngrok
-brew_cask_install slack
-brew_cask_install visual-studio-code
-brew_cask_install zoomus
-brew_cask_install licecap
-brew_cask_install postman
-
-echo "## install utilities"
-xcode-select --install || true
-brew_install entr
-brew_install ripgrep
+brew_install 1password
+brew_install firefox
+brew_install google-chrome
+brew_install font-fira-code
+brew_install visual-studio-code
+brew_install slack
+brew_install zoom
 
 echo "## configure npm"
 npm config set init.author.name $NPM_AUTHOR
@@ -161,8 +149,9 @@ git config --global alias.clonemy '!f() { git clone git@github.com:'"$GITHUB_USE
 git config --global alias.amend 'commit --amend -C HEAD'
 git config --global alias.publish 'push origin HEAD'
 git config --global alias.pushforreal '!git push --force-with-lease --no-verify'
-git config --global alias.quickrebase '!git fetch && git rebase origin/master'
-git config --global alias.cleanbranches '!git branch | grep -v "master" | xargs git branch -D '
+git config --global alias.quickrebase '!git fetch && git rebase origin/main'
+git config --global alias.cleanbranches '!git branch | grep -v "main" | xargs git branch -D '
+git config --global alias.alias "! git config --get-regexp ^alias\. | sed -e s/^alias\.// -e s/\ /\ =\ /"
 
 echo "## generate ssh key"
 if [ ! -d ~/.ssh ]; then
@@ -177,36 +166,9 @@ EOF
   ssh-add -K ~/.ssh/id_rsa
   pbcopy < ~/.ssh/id_rsa.pub
   printf "\e[36mSSH key has been copied to clipboard.\e[39m\n"
+  echo "Add it to GitHub"
+else
+  echo "ssh key already exists"
 fi
-
-vscode_extension() {
-  code --install-extension $1
-}
-
-echo "## install vscode extensions"
-echo "### vscode"
-vscode_extension shan.code-settings-sync
-vscode_extension ms-vsliveshare.vsliveshare-pack
-vscode_extension editorconfig.editorconfig
-echo "### general formatting"
-vscode_extension coenraads.bracket-pair-colorizer-2
-vscode_extension tyriar.sort-lines
-vscode_extension wayou.vscode-todo-highlight
-vscode_extension yzhang.markdown-all-in-one
-echo "### git"
-vscode_extension eamodio.gitlens
-echo "### elixir"
-vscode_extension jakebecker.elixir-ls
-vscode_extension florinpatrascu.vscode-elixir-snippets
-echo "### javascript"
-vscode_extension dbaeumer.vscode-eslint
-echo "### go"
-vscode_extension ms-vscode.go
-echo "### docker"
-vscode_extension ms-azuretools.vscode-docker
-echo "### terraform"
-vscode_extension mauve.terraform
-echo "### dotenv"
-vscode_extension mikestead.dotenv
 
 echo "# Setup is complete."
