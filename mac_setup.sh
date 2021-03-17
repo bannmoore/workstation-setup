@@ -62,6 +62,8 @@ export PATH="$HOME/.exenv/bin:$PATH"
 eval "$(exenv init -)"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
+
+export PATH=$HOME/.dotnet/tools:$PATH
 EOF
 else
   echo "### .zshrc already exists"
